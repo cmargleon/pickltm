@@ -2,13 +2,7 @@
 const Mongoose = require('mongoose'),
     Types = Mongoose.Schema.Types;
 
-Mongoose.connect(
-    'mongodb+srv://claudio:Lestat1988@reclut-q4vt0.mongodb.net/test?retryWrites=true&w=majority',
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }
-);
+
 
 const modelName = 'techDictionaryWithKey';
 
@@ -23,12 +17,19 @@ const Tech = Mongoose.model(modelName, TechSchema);
 
 
 exports.handler = async (event, context) => {
-    const location = event.queryStringParameters.location || "home";
     try {
+        await Mongoose.connect(
+            'mongodb+srv://claudio:Lestat1988@reclut-q4vt0.mongodb.net/test?retryWrites=true&w=majority',
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }
+        );
         const docs = await Tech.find();
+        console.log(docs);
         return {
             statusCode: 200,
-            body: docs,
+            body: { response: "Ok" },
         };
     } catch (err) {
         return {
