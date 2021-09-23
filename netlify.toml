@@ -1,0 +1,8 @@
+[build]
+  publish = "dist/pickLatam"
+  command = "ng build"
+  functions = "./src/assets/pick-functions"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
