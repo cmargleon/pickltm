@@ -96,7 +96,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesService.getTechnologies().subscribe((res) => {
-      this.technologiesFullList = res;
+      let techList = res.sort(function (a, b) {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      })
+      this.technologiesFullList = techList
     })
   }
 
