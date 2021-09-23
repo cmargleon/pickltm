@@ -1,14 +1,39 @@
+// const mongoose = require('mongoose');
+const Mongoose = require('mongoose'),
+    Types = Mongoose.Schema.Types;
+
+Mongoose.connect(
+    'mongodb+srv://claudio:Lestat1988@reclut-q4vt0.mongodb.net/test?retryWrites=true&w=majority',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+);
+
+const modelName = 'techDictionaryWithKey';
+
+//Employee Model without any fixed schema
+const TechSchema = new Mongoose.Schema(
+    { technology: String },
+    { strict: false }
+);
+
+const Tech = Mongoose.model(modelName, TechSchema);
+
 
 
 exports.handler = async (event, context) => {
     const location = event.queryStringParameters.location || "home";
-
-    console.log("Hello Angular World o(*ﾟ∇ﾟ)ﾉ");
-    console.log(`\nHere is the event info: ${JSON.stringify(event)}`);
-    console.log(`\nHere is the context info: ${JSON.stringify(context)}`);
-
-    return {
-        statusCode: 200,
-        body: `Ng phone ${location}!`,
-    };
+    try {
+        const docs = await Tech.find();
+        return {
+            statusCode: 200,
+            body: docs,
+        };
+    } catch (err) {
+        return {
+            statusCode: 404,
+            body: `404 not found`,
+        };
+    }
 };
