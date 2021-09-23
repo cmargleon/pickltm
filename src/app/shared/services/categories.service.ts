@@ -17,10 +17,12 @@ export class CategoriesService {
 
   getTechnologies() {
     return this.http.get(`${this.API}`).pipe(map((response: any) => {
-      this.tech.name = response.technology;
-      this.tech.selected = false;
-      this.tech.icon = "";
-      return this.tech;
+      let technology = {
+        name: response.technology,
+        selected: false,
+        icon: ""
+      }
+      return technology;
     }))
   }
 
