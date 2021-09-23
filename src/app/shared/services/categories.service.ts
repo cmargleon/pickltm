@@ -15,16 +15,16 @@ export class CategoriesService {
 
   constructor(private http: HttpClient) { }
 
-  getTechnologies() {
-    return this.http.get(`${this.API}`)
-    return this.http.get(`${this.API}`).pipe(map((response: any) => {
+  getTechnologies(): Observable<Technology[]> {
+    return this.http.get<any[]>(`${this.API}`).pipe(map(data => data.map(v => {
       let technology = {
-        name: response.technology,
+        name: v.technology,
         selected: false,
         icon: ""
       }
       return technology;
-    }))
+    })));
+
   }
 
   // Error handling
