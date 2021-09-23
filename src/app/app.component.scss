@@ -1,0 +1,257 @@
+body {
+    margin: 82px auto 32px;
+    padding: 0 16px;
+}
+
+.btn-primary {
+    margin: 1rem;
+}
+
+::ng-deep .step-anchor {
+    display: none !important;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.15;
+}
+
+.header-left {
+    flex: 1 1;
+    display: block;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.current-step-container {
+    display: inline-block;
+    border-radius: 205px;
+    padding: 9px 12px;
+    background-color: #eee;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.skills-page-title {
+    font-weight: bold;
+    margin: 1.5rem 0;
+}
+
+.skills-help {
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #888;
+}
+
+.skill-container {
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+    // width: max-content;
+}
+
+.skill-selector {
+    width: 100px;
+    height: 88px;
+    margin: 5px;
+    // padding: 5px;
+    // box-sizing: content-box;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
+    border: 3px solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: 0;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 0 0 10px rgb(0 0 0 / 14%);
+        .skill-title {
+            color: #56a8f7;
+        }
+    }
+}
+
+.skill-selected {
+    border: 3px solid #56a8f7;
+}
+
+.skill-icon-holder {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin-top: 13px;
+}
+
+.skill-icon {
+    display: block;
+    margin: 0 auto;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    // background-image: url(../assets/techLogos/react.svg);
+}
+
+.skill-title {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 1.3;
+    padding: 0 9px;
+    // box-sizing: border-box;
+}
+
+@media (max-width: 576px) { 
+    .skill-selector {
+        width: 101px;
+        height: 88px;
+        margin: 3px;
+    }
+    .skill-title {
+        font-size: 10px; 
+    }
+    // .skill-selector {
+    //     width: 90%;
+    //     height: 90%;
+    // }
+}
+
+.multiselect-container {
+    margin: 1.5rem 0;
+}
+
+.ng-select-custom {
+    height: 3rem;
+}
+
+.ng-select-custom ::ng-deep .ng-arrow-wrapper {
+    display: none;
+}
+
+.ng-select ::ng-deep .ng-select-container {
+    min-height: 3rem !important;
+}
+
+.ng-select ::ng-deep .ng-value-container {
+    padding-top: 0 !important;
+}
+
+.ng-select ::ng-deep .ng-placeholder {
+    top: 25% !important;
+}
+
+.ng-select-custom ::ng-deep .ng-value {
+    background-color: rgba(68,68,68,.18) !important;
+    border-radius: 50px !important;
+    margin: 3px 6px 0 0 !important;
+    display: inline-flex !important;
+    padding: 0 8px 0 12px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    // order: 1 !important;
+    min-height: 32px !important;
+
+    &:hover {
+        // background-color: blue !important;
+        // border-radius: 20px !important;
+    }
+      .ng-value-icon.right {
+        border-left: none !important;
+        display: inline-flex !important;
+        background-color: #888;
+        font-size: 14px;
+        color: #ededed;
+        width: 18px;
+        height: 18px;
+        border-radius: 18px;
+        vertical-align: middle;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            background-color: #888 !important;
+            // border-radius: 25px !important;
+        }
+
+    }
+}
+
+
+
+
+
+// .checkbox {
+//     display: inline-flex;
+//     cursor: pointer;
+//     position: relative;
+// }
+
+// .checkbox > span {
+//     color: red;
+//     padding: 0.5rem 0.25rem;
+// }
+
+// .checkbox > input {
+//     width: 100px;
+//     height: 88px;
+//     margin: 0;
+//     padding: 0;
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     -o-appearance: none;
+//     appearance: none;
+//     box-shadow: 0 0 10px rgb(0 0 0 / 4%);
+//     border: 3px solid transparent;
+//     border-radius: 4px;
+//     box-sizing: border-box;
+//     outline: none;
+//     transition-duration: 0.3s;
+//     // background-color: #41B883;
+//     cursor: pointer;
+//   }
+
+// .checkbox > input:checked {
+//     border: 3px solid #56a8f7;
+//     // background-color: #34495E;
+// }
+
+// .checkbox > input:checked + span::before {
+//     display: none;
+// }
+
+.checkbox > input:active {
+    // border: 3px solid #34495E;
+}
+
+input[type=checkbox].css-checkbox{ display: none; }
+
+.css-label{
+    padding-left: 20px;
+    display: flex;
+    width: 100px;
+    height: 88px;
+    background-image: url(../assets/techLogos/react.svg);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    // background-color: #E9EEF4;
+    background-size: contain;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+ background-position: 0 0;
+ border: 3px solid #2FBCDF;
+}
