@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Technology } from '../models/technology';
 
 @Injectable({
@@ -10,10 +11,17 @@ export class CategoriesService {
 
   private API: string = 'https://thirsty-swirles-6a035c.netlify.app/.netlify/functions/hello';
 
+  tech!: Technology;
+
   constructor(private http: HttpClient) { }
 
-  getTechnologies(): Observable<Technology[]> {
-    return this.http.get<Technology[]>(`${this.API}`)
+  getTechnologies() {
+    return this.http.get(`${this.API}`).pipe(map((response: any) => {
+      this.tech.name = response.technology;
+      this.tech.selected = false;
+      this.tech.icon = "";
+      return this.tech;
+    }))
   }
 
   // Error handling
