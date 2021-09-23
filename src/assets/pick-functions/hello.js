@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
         console.log(docs);
         return {
             statusCode: 200,
-            body: { response: "Ok" },
+            body: "Ok",
         };
     } catch (err) {
         return {
