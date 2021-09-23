@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 
   faUser = faUser;
 
-  technologies2 = new Array<Technology>();
+  technologiesFullList = new Array<Technology>();
 
   technologies: Technology[] = [{ name: "HTML", icon: "../assets/techLogos/html.svg", selected: false },
   { name: "CSS", icon: "../assets/techLogos/css.svg", selected: false },
@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.categoriesService.getTechnologies().subscribe((res) => {
-      console.log(res);
+      this.technologiesFullList = res;
     })
   }
 
