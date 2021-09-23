@@ -4,6 +4,7 @@ import { NgWizardConfig, NgWizardService, StepChangedArgs, StepValidationArgs, S
 import { Technology } from './shared/models/technology';
 import { Position } from './shared/models/position';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { CategoriesService } from './shared/services/categories.service';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,8 @@ export class AppComponent implements OnInit {
   showSave: boolean = false;
 
   faUser = faUser;
+
+  technologies2 = new Array<Technology>();
 
   technologies: Technology[] = [{ name: "HTML", icon: "../assets/techLogos/html.svg", selected: false },
   { name: "CSS", icon: "../assets/techLogos/css.svg", selected: false },
@@ -87,10 +90,14 @@ export class AppComponent implements OnInit {
     }
   };
 
-  constructor(private ngWizardService: NgWizardService) {
+  constructor(private ngWizardService: NgWizardService,
+    private categoriesService: CategoriesService) {
   }
 
   ngOnInit() {
+    this.categoriesService.getTechnologies().subscribe((res) => {
+      console.log(res);
+    })
   }
 
   checkSkill(selected: number, section: string) {

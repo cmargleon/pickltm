@@ -8,6 +8,7 @@ import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpClientModule } from '@angular/common/http';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
@@ -24,7 +25,8 @@ const ngWizardConfig: NgWizardConfig = {
     NgWizardModule.forRoot(ngWizardConfig),
     NgSelectModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
