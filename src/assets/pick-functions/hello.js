@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
         console.log(docs);
         return {
             statusCode: 200,
-            body: "Ok",
+            body: JSON.stringify(docs),
         };
     } catch (err) {
         return {
