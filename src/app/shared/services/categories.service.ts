@@ -18,7 +18,7 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   getTechnologies(): Observable<Technology[]> {
-    return this.http.get<any[]>(`${this.API2}`).pipe(map(data => data.map(v => {
+    return this.http.get<any[]>(`${this.API}`).pipe(map(data => data.map(v => {
       let technology = {
         name: v.technology,
         selected: false,
