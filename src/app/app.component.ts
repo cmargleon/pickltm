@@ -41,6 +41,8 @@ export class AppComponent implements OnInit {
 
   selectPositionError: boolean = false;
 
+  selectTechError: boolean = false;
+
   technologiesFullList = new Array<Technology>();
 
   technologies: Technology[] = [{ name: "HTML", icon: "../assets/techLogos/html.svg", selected: false },
@@ -129,6 +131,7 @@ export class AppComponent implements OnInit {
     });
     this.firstForm = this.fb.group({
       jobPositions: this.fb.array([], [Validators.required]),
+      mainTechs: this.fb.array([]),
     });
     this.firstForm.valueChanges.subscribe((res) => {
     })
@@ -139,7 +142,6 @@ export class AppComponent implements OnInit {
     const checkArray: FormArray = this.firstForm.get('jobPositions') as FormArray;
 
     if (e.target.checked) {
-      console.log(e.target.value);
 
       checkArray.push(new FormControl(e.target.value));
     } else {
@@ -157,6 +159,19 @@ export class AppComponent implements OnInit {
   checkSkill(selected: number, section: string) {
     if (section == "tech") {
       this.technologies[selected].selected = !this.technologies[selected].selected;
+      const techArray: FormArray = this.firstForm.get('mainTechs') as FormArray;
+      if (this.technologies[selected].selected) {
+        techArray.push(new FormControl(this.technologies[selected].name));
+      } else {
+        let i: number = 0;
+        techArray.controls.forEach((item) => {
+          if (item.value == this.technologies[selected].name) {
+            techArray.removeAt(i);
+            return;
+          }
+          i++;
+        });
+      }
     } else if (section == "position") {
       this.positions[selected].selected = !this.positions[selected].selected;
       const checkArray: FormArray = this.firstForm.get('jobPositions') as FormArray;
@@ -183,13 +198,28 @@ export class AppComponent implements OnInit {
 
   showNextStep(event?: Event) {
     if (this.firstStep) {
-      if (this.firstForm.get("jobPositions")?.valid) {
+      const mainTechArray: Array<any> = this.firstForm.get('mainTechs')?.value;
+      const selectedTechs: Array<any> = mainTechArray.concat(this.selectedTechnologies);
+
+      if (this.firstForm.get("jobPositions")?.valid && selectedTechs.length > 0) {
         this.selectPositionError = false;
         this.ngWizardService.next();
       } else {
-        this.selectPositionError = true;
+        if (!this.firstForm.get("jobPositions")?.valid) {
+          this.selectPositionError = true;
+
+        } else {
+          this.selectPositionError = false;
+        }
+        if (selectedTechs.length == 0) {
+          this.selectTechError = true;
+
+        } else {
+          this.selectTechError = false;
+        }
       }
     }
+
   }
 
   resetWizard(event?: Event) {

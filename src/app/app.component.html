@@ -338,7 +338,7 @@
 
               <h4 class="skills-page-title"><span>What Tech Stack do you need?</span></h4>
 
-              <div class="skills-help">Select at least one skill</div>
+              <div class="skills-help" [ngClass]="{'error-message': selectTechError}">Select at least one skill</div>
 
               <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
                 *ngFor="let tech of technologies; let i = index">
