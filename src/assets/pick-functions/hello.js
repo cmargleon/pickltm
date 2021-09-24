@@ -4,7 +4,7 @@ const Mongoose = require('mongoose'),
 
 
 
-const modelName = 'techDictionaryWithKey';
+
 
 //Employee Model without any fixed schema
 const TechSchema = new Mongoose.Schema(
@@ -12,7 +12,7 @@ const TechSchema = new Mongoose.Schema(
     { strict: false }
 );
 
-const Tech = Mongoose.model(modelName, TechSchema);
+
 
 
 
@@ -25,6 +25,9 @@ exports.handler = async (event, context) => {
                 useUnifiedTopology: true,
             }
         );
+        const modelName = 'techDictionaryWithKey';
+
+        const Tech = Mongoose.model(modelName, TechSchema);
         const docs = await Tech.find();
         console.log(docs);
         return {
@@ -34,7 +37,7 @@ exports.handler = async (event, context) => {
     } catch (err) {
         return {
             statusCode: 404,
-            body: `404 not found`,
+            body: JSON.stringify(err),
         };
     }
 };

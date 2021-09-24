@@ -3,13 +3,28 @@ import { of } from 'rxjs';
 import { NgWizardConfig, NgWizardService, StepChangedArgs, StepValidationArgs, STEP_STATE, THEME } from 'ng-wizard';
 import { Technology } from './shared/models/technology';
 import { Position } from './shared/models/position';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesService } from './shared/services/categories.service';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+  FormArray,
+} from "@angular/forms";
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('insertTrigger', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms', style({ opacity: 1 })),
+      ]),
+    ]),
+  ]
 })
 export class AppComponent implements OnInit {
   title = 'pickLatam';
@@ -24,7 +39,7 @@ export class AppComponent implements OnInit {
 
   showSave: boolean = false;
 
-  faUser = faUser;
+  selectPositionError: boolean = false;
 
   technologiesFullList = new Array<Technology>();
 
@@ -67,9 +82,9 @@ export class AppComponent implements OnInit {
   ]
 
   positions: Position[] = [{ name: "Developer", icon: "../assets/positionIcons/developer.svg", selected: false },
-  { name: "Development Team", icon: "../assets/positionIcons/development-team.svg", selected: false },
   { name: "Project Manager", icon: "../assets/positionIcons/manager.svg", selected: false },
   { name: "UI/UX Specialist", icon: "../assets/positionIcons/uiux.png", selected: false },
+  { name: "Team", icon: "../assets/positionIcons/development-team.svg", selected: false },
   {
     name: "I need Advice", icon: "../assets/techLogos/question.svg", selected: false
   },]
@@ -90,8 +105,12 @@ export class AppComponent implements OnInit {
     }
   };
 
+  firstForm!: FormGroup;
+
   constructor(private ngWizardService: NgWizardService,
-    private categoriesService: CategoriesService) {
+    private categoriesService: CategoriesService,
+    private fb: FormBuilder) {
+
   }
 
   ngOnInit() {
@@ -107,18 +126,55 @@ export class AppComponent implements OnInit {
         return 0;
       })
       this.technologiesFullList = techList
+    });
+    this.firstForm = this.fb.group({
+      jobPositions: this.fb.array([], [Validators.required]),
+    });
+    this.firstForm.valueChanges.subscribe((res) => {
     })
+  }
+
+
+  onCheckboxChange(e: any) {
+    const checkArray: FormArray = this.firstForm.get('jobPositions') as FormArray;
+
+    if (e.target.checked) {
+      console.log(e.target.value);
+
+      checkArray.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      checkArray.controls.forEach((item) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 
   checkSkill(selected: number, section: string) {
     if (section == "tech") {
       this.technologies[selected].selected = !this.technologies[selected].selected;
-      console.log(this.technologies[selected].selected);
     } else if (section == "position") {
       this.positions[selected].selected = !this.positions[selected].selected;
+      const checkArray: FormArray = this.firstForm.get('jobPositions') as FormArray;
+      if (this.positions[selected].selected) {
+        checkArray.push(new FormControl(this.positions[selected].name));
+      } else {
+        let i: number = 0;
+        checkArray.controls.forEach((item) => {
+          if (item.value == this.positions[selected].name) {
+            checkArray.removeAt(i);
+            return;
+          }
+          i++;
+        });
+      }
+
     }
   }
-
 
 
   showPreviousStep(event?: Event) {
@@ -126,7 +182,14 @@ export class AppComponent implements OnInit {
   }
 
   showNextStep(event?: Event) {
-    this.ngWizardService.next();
+    if (this.firstStep) {
+      if (this.firstForm.get("jobPositions")?.valid) {
+        this.selectPositionError = false;
+        this.ngWizardService.next();
+      } else {
+        this.selectPositionError = true;
+      }
+    }
   }
 
   resetWizard(event?: Event) {
@@ -138,34 +201,14 @@ export class AppComponent implements OnInit {
   }
 
   stepChanged(args: StepChangedArgs) {
-    // let ngStep = args.step.title;
-    // switch (ngStep) {
-    //   case 'NAME':
-    //     this.firstStep = true;
-    //     this.lastStep = false;
-    //     this.showSave = false;
-    //     break;
-    //   default:
-    //     this.firstStep = false;
-    //     this.lastStep = false;
-    //     this.showSave = true;
-    //     break;
+
     this.stepIndex = args.step.index;
-    console.log(this.stepIndex == 0);
     if (this.stepIndex != 0) {
       this.firstStep = false;
     } else {
       this.firstStep = true;
     }
-    // this.showPreviousStep();
     this.ngWizardService.stepChanged()
-    // if (this.stepIndex ==! 0) {
-    //   this.firstStep = true
-    // } else {
-    //   this.firstStep = false
-    // }
-
-    // }
   }
 
   isValidTypeBoolean: boolean = true;

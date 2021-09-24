@@ -9,7 +9,9 @@ import { Technology } from '../models/technology';
 })
 export class CategoriesService {
 
-  private API: string = 'https://thirsty-swirles-6a035c.netlify.app/.netlify/functions/hello';
+  private API: string = 'http://localhost:8888/.netlify/functions/hello';
+
+  private API2: string = 'http://localhost:3000/catalogo/gettech';
 
   tech!: Technology;
 

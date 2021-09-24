@@ -315,52 +315,60 @@
               <div class="header-left"><span>PickLatam</span></div>
               <div class="header-right"><span class="current-step-container">Step 1/3</span></div>
             </div>
+            <form [formGroup]="firstForm" (ngSubmit)="showNextStep()">
+              <h4 class="skills-page-title"><span>You need to hire a...</span></h4>
 
-            <h4 class="skills-page-title"><span>You need to hire a...</span></h4>
+              <div class="skills-help">You can select more than one option <span class="error-message"
+                  *ngIf="selectPositionError" [@insertTrigger]>and you have to
+                  select at least one :)</span></div>
 
-            <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
-              *ngFor="let position of positions; let i = index">
-              <button type="button" (click)="checkSkill(i, 'position')" class="skill-selector"
-                [ngClass]="{'skill-selected' : position.selected}">
-                <div class="skill-icon-holder">
-                  <!-- <fa-icon class="skill-icon" [icon]="faUser"></fa-icon> -->
-                  <span class="skill-icon" style.background-image="url({{position.icon}})"></span>
-                </div>
-                <div class="skill-title">{{position.name}}</div>
-              </button>
-            </div>
+              <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
+                *ngFor="let position of positions; let i = index">
+                <button type="button" (click)="checkSkill(i, 'position')" class="skill-selector"
+                  [ngClass]="{'skill-selected' : position.selected}">
+                  <div class="skill-icon-holder">
+                    <!-- <fa-icon class="skill-icon" [icon]="faUser"></fa-icon> -->
+                    <span class="skill-icon" style.background-image="url({{position.icon}})"></span>
+                  </div>
+                  <div class="skill-title">{{position.name}}</div>
+                </button>
+              </div>
 
-            <h4 class="skills-page-title"><span>What Tech Stack do you need?</span></h4>
 
-            <div class="skills-help">Select at least one skill</div>
 
-            <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
-              *ngFor="let tech of technologies; let i = index">
-              <button type="button" (click)="checkSkill(i, 'tech')" class="skill-selector"
-                [ngClass]="{'skill-selected' : tech.selected}">
-                <div class="skill-icon-holder"><span class="skill-icon"
-                    style.background-image="url({{tech.icon}})"></span>
-                </div>
-                <div class="skill-title">{{tech.name}}</div>
-              </button>
-            </div>
-            <div class="container multiselect-container">
-              <ng-select [items]="technologiesFullList" class="ng-select-custom" [multiple]="true" [hideSelected]="true"
-                bindLabel="name" bindValue="name" [(ngModel)]="selectedTechnologies"
-                placeholder="ENTER OTHER SKILLS (+100 AVAILABLE)">
+              <h4 class="skills-page-title"><span>What Tech Stack do you need?</span></h4>
 
-                <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                  <span class="ng-value-label">
-                    {{item.name}}</span>
-                  <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                </ng-template>
+              <div class="skills-help">Select at least one skill</div>
 
-                <ng-template ng-option-tmp let-item="item">
-                  {{item.name}}
-                </ng-template>
-              </ng-select>
-            </div>
+              <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
+                *ngFor="let tech of technologies; let i = index">
+                <button type="button" (click)="checkSkill(i, 'tech')" class="skill-selector"
+                  [ngClass]="{'skill-selected' : tech.selected}">
+                  <div class="skill-icon-holder"><span class="skill-icon"
+                      style.background-image="url({{tech.icon}})"></span>
+                  </div>
+                  <div class="skill-title">{{tech.name}}</div>
+                </button>
+              </div>
+              <div class="container multiselect-container">
+                <ng-select [items]="technologiesFullList" class="ng-select-custom" [multiple]="true"
+                  [hideSelected]="true" bindLabel="name" bindValue="name" [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="selectedTechnologies" placeholder="ENTER OTHER SKILLS (+100 AVAILABLE)">
 
+                  <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                    <span class="ng-value-label">
+                      {{item.name | uppercase }}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </ng-template>
+
+                  <ng-template ng-option-tmp let-item="item">
+                    {{item.name | uppercase }}
+                  </ng-template>
+                </ng-select>
+              </div>
+
+              <!-- <button type="submit" class="btn btn-primary float-right btn-lg" *ngIf="stepIndex < 2">Continue1</button> -->
+            </form>
           </ng-wizard-step>
 
           <ng-wizard-step>
