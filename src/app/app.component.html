@@ -316,9 +316,17 @@
           <form [formGroup]="firstForm" (ngSubmit)="showNextStep()">
             <h4 class="skills-page-title"><span>You need to hire a...</span></h4>
 
-            <div class="skills-help">You can select more than one option <span class="error-message"
-                *ngIf="selectPositionError" [@insertTrigger]>and you have to
-                select at least one :)</span></div>
+            <div class="skills-help" *ngIf="!selectPositionError">You can select more than one option
+              <!-- <span
+                class="error-message" *ngIf="selectPositionError" [@insertTrigger]>and you have to
+                select at least one :)</span> -->
+            </div>
+            <div class="skills-help error-message" *ngIf="selectPositionError" [@insertTrigger]> You have to select at
+              least one option
+              <!-- <span
+                  class="error-message" *ngIf="selectPositionError" [@insertTrigger]>and you have to
+                  select at least one :)</span> -->
+            </div>
 
             <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
               *ngFor="let position of positions; let i = index">
