@@ -3,10 +3,6 @@ body {
     padding: 0 16px;
 }
 
-.btn-primary {
-    margin: 1rem;
-}
-
 ::ng-deep .step-anchor {
     display: none !important;
 }
@@ -190,7 +186,126 @@ body {
     }
 }
 
+.form-item-container {
+    flex: 1 1;
+    margin: 20px auto;
+    width: 100%;
+    box-sizing: border-box;
+}
 
+.form-item-label {
+    margin-bottom: 12px;
+    display: block;
+    font-size: 14px;
+    color: #212121;
+}
+
+.button-picker-container {
+    display: flex;
+}
+
+.button-picker {
+    background-color: rgba(68,68,68,.06);
+    border: 0;
+    border-radius: 50px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    color: #444;
+    font-size: 14px;
+    cursor: pointer;
+    width: inherit;
+    &:hover {
+        background-color: rgba(68,68,68,.12);
+    }
+}
+
+.button-picker-selected {
+    background-color: #666;
+    color: #fff;
+    &:hover {
+        background-color: #666;
+    }
+}
+
+.text-input {
+    height: 40px;
+    width: 332px;
+    padding: 8px 12px 9px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 0 transparent;
+    color: #444;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.input-group-addon
+{
+    background-color:#FFF;
+}
+
+.input-group .input-group-addon + .input-form
+{
+    border-left:none;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.has-icon-left .form-control {
+    padding-right: .85rem;
+    padding-left: 2.95rem;
+}
+
+.form-control {
+    border: 1px solid #a6a9ae;
+    color: #75787d;
+    
+}
+
+.border-error {
+    border: 1px solid #ff595e;
+}
+
+.has-icon-left .form-control-position {
+    right: auto;
+    left: inherit;
+}
+
+.icon-input-color {
+    color: #aaa;;
+}
+
+.form-control-position {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+}
+
+[class*=" ft-"], [class^=ft-] {
+    font-family: feather!important;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 
 // .checkbox {

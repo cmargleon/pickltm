@@ -12,6 +12,7 @@ import {
   FormArray,
 } from "@angular/forms";
 import { trigger, style, transition, animate } from '@angular/animations';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,8 @@ import { trigger, style, transition, animate } from '@angular/animations';
 })
 export class AppComponent implements OnInit {
   title = 'pickLatam';
+
+  faPlus = faPlus;
 
   selectedTechnologies = [];
 
@@ -133,10 +136,59 @@ export class AppComponent implements OnInit {
       jobPositions: this.fb.array([], [Validators.required]),
       mainTechs: this.fb.array([]),
     });
-    this.firstForm.valueChanges.subscribe((res) => {
+    this.secondForm = this.fb.group({
+      workDay: [this.selectedWorkDay, [Validators.required]],
+      companySize: [this.selectedCompanySize, [Validators.required]],
+      availability: [this.selectedAvailability, [Validators.required]],
+      name: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(18)]],
+      email: ["", [Validators.required, Validators.email]],
+      phone: ["", [Validators.minLength(6), Validators.maxLength(13), Validators.pattern("^[0-9]*$")]],
+      companyName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(18)]]
     })
   }
 
+  //SECOND FORM
+
+  get secondF() { return this.secondForm.controls; }
+
+  secondForm!: FormGroup;
+
+  selectedWorkDay = 'freelance'
+
+  selectedCompanySize = '10';
+
+  selectedAvailability = '10';
+
+  secondFormSubmitted = false;
+
+  selectSecondStep(value: any, section: string) {
+    if (section == 'workday') {
+      this.selectedWorkDay = value;
+      this.secondForm.get('workDay')?.setValue(value);
+      console.log(this.selectedWorkDay);
+
+    } else if (section == 'companySize') {
+      this.selectedCompanySize = value;
+      this.secondForm.get('companySize')?.setValue(value);
+    } else if (section == 'availability') {
+      this.selectedAvailability = value;
+      this.secondForm.get('availability')?.setValue(value);
+    }
+    console.log(this.selectedCompanySize);
+    console.log(this.secondForm.value);
+  }
+
+  onSubmitSecondForm() {
+    this.secondFormSubmitted = true;
+
+    // stop here if form is invalid
+    if (this.secondForm.invalid) {
+      return;
+    }
+
+    // display form values on success
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.secondForm.value, null, 4));
+  }
 
   onCheckboxChange(e: any) {
     const checkArray: FormArray = this.firstForm.get('jobPositions') as FormArray;
@@ -222,6 +274,48 @@ export class AppComponent implements OnInit {
 
   }
 
+  showNextStep2(formStep: string) {
+    console.log("aaaa");
+
+    if (formStep == 'first') {
+      const mainTechArray: Array<any> = this.firstForm.get('mainTechs')?.value;
+      const selectedTechs: Array<any> = mainTechArray.concat(this.selectedTechnologies);
+
+      if (this.firstForm.get("jobPositions")?.valid && selectedTechs.length > 0) {
+        this.selectPositionError = false;
+        this.ngWizardService.next();
+      } else {
+        if (!this.firstForm.get("jobPositions")?.valid) {
+          this.selectPositionError = true;
+
+        } else {
+          this.selectPositionError = false;
+        }
+        if (selectedTechs.length == 0) {
+          this.selectTechError = true;
+
+        } else {
+          this.selectTechError = false;
+        }
+      }
+    } else if (formStep == 'second') {
+      this.secondFormSubmitted = true;
+      console.log("aaa");
+
+      // stop here if form is invalid
+      if (this.secondForm.invalid) {
+        return;
+      }
+
+      // display form values on success
+      this.ngWizardService.next();
+      console.log(this.secondForm.value);
+
+      // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.secondForm.value, null, 4));
+    }
+
+  }
+
   resetWizard(event?: Event) {
     this.ngWizardService.reset();
   }
@@ -255,5 +349,7 @@ export class AppComponent implements OnInit {
     this.ngWizardService.previous()
 
   }
+
+
 
 }
