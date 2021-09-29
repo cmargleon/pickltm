@@ -13,6 +13,12 @@ import {
 } from "@angular/forms";
 import { trigger, style, transition, animate } from '@angular/animations';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import CountriesJson from '../assets/json/countries.json';
+import { Country } from './shared/models/country';
+import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
+import { NgxSpinnerService } from 'ngx-spinner';
+export { }; declare global { interface Window { Calendly: any; } }
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -47,6 +53,18 @@ export class AppComponent implements OnInit {
   selectTechError: boolean = false;
 
   technologiesFullList = new Array<Technology>();
+
+  Countries: Country[] = CountriesJson;
+
+  separateDialCode = false;
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  PhoneNumberFormat = PhoneNumberFormat;
+  preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.Canada, CountryISO.Argentina, CountryISO.Brazil, CountryISO.Chile, CountryISO.Colombia, CountryISO.Ecuador, CountryISO.Mexico, CountryISO.Peru, CountryISO.Uruguay];
+
+  // changePreferredCountries() {
+  //   this.preferredCountries = [CountryISO.India, CountryISO.Canada];
+  // }
 
   technologies: Technology[] = [{ name: "HTML", icon: "../assets/techLogos/html.svg", selected: false },
   { name: "CSS", icon: "../assets/techLogos/css.svg", selected: false },
@@ -114,11 +132,29 @@ export class AppComponent implements OnInit {
 
   constructor(private ngWizardService: NgWizardService,
     private categoriesService: CategoriesService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService) {
 
   }
 
   ngOnInit() {
+    window.Calendly.initInlineWidget({
+      url: 'https://calendly.com/claudiomatiasrg/picklatam-introduction',
+      parentElement: document.querySelector('.calendly-inline-widget'),
+    });
+    window.addEventListener(
+      'message',
+      (e: any) => {
+        if (this.isCalendlyEvent(e)) {
+          console.log(e);
+          let calendlyEvent = e.data.event;
+          if (calendlyEvent == 'calendly.event_scheduled') {
+            this.calendlyEventScheduled = true;
+            this.redirectTimer()
+          }
+        }
+      }
+    );
     this.categoriesService.getTechnologies().subscribe((res) => {
       let techList = res.sort(function (a, b) {
         if (a.name > b.name) {
@@ -142,9 +178,44 @@ export class AppComponent implements OnInit {
       availability: [this.selectedAvailability, [Validators.required]],
       name: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(18)]],
       email: ["", [Validators.required, Validators.email]],
-      phone: ["", [Validators.minLength(6), Validators.maxLength(13), Validators.pattern("^[0-9]*$")]],
+      phone: [""],
       companyName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(18)]]
-    })
+    });
+    //Loader
+    this.spinner.show();
+  }
+
+  //CALENDLY
+
+  calendlyEventScheduled: boolean = false;
+
+  timeLeftRedirect: number = 3;
+
+  calendlyTimer!: number;
+
+  interval!: any;
+
+
+  isCalendlyEvent(e: any) {
+    return e.data.event && e.data.event.indexOf('calendly') === 0;
+  };
+
+  redirectTimer() {
+    // this.interval = setInterval(() => {
+    //   if (this.timeLeftRedirect > 0) {
+    //     this.timeLeftRedirect--;
+    //   } else {
+    //     this.timeLeftRedirect = 60;
+    //   }
+    // }, 1000)
+    const source = timer(1000, 2000);
+    const abc = source.subscribe(val => {
+      console.log(val, '-');
+      this.calendlyTimer = this.timeLeftRedirect - val;
+      if (this.calendlyTimer == 0) {
+        abc.unsubscribe()
+      }
+    });
   }
 
   //SECOND FORM
@@ -301,6 +372,7 @@ export class AppComponent implements OnInit {
     } else if (formStep == 'second') {
       this.secondFormSubmitted = true;
       console.log("aaa");
+      console.log(this.secondForm.value);
 
       // stop here if form is invalid
       if (this.secondForm.invalid) {
@@ -350,6 +422,11 @@ export class AppComponent implements OnInit {
 
   }
 
+  //Loader
+  isLoading: boolean = true;
 
+  loader() {
+    this.spinner.hide();
+  }
 
 }

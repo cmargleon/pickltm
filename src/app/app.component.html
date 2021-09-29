@@ -305,8 +305,10 @@
 
 <div class="container-fluid" role="main">
   <div class="row">
-    <div class="offset-lg-2 offset-md-2 offset-sm-1 col-sm-10 col-md-8 col-lg-8">
+    <div class="offset-lg-2 offset-md-2 col-12 col-md-8 col-lg-8">
       <ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+
+
 
         <ng-wizard-step [canEnter]="isValidTypeBoolean" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
           <div class="header">
@@ -317,15 +319,9 @@
             <h4 class="skills-page-title"><span>You need to hire a...</span></h4>
 
             <div class="skills-help" *ngIf="!selectPositionError">You can select more than one option
-              <!-- <span
-                class="error-message" *ngIf="selectPositionError" [@insertTrigger]>and you have to
-                select at least one :)</span> -->
             </div>
             <div class="skills-help error-message" *ngIf="selectPositionError" [@insertTrigger]> You have to select at
               least one option
-              <!-- <span
-                  class="error-message" *ngIf="selectPositionError" [@insertTrigger]>and you have to
-                  select at least one :)</span> -->
             </div>
 
             <div class="col-lg-2 col-md-3 col-sm-3 col-4 skill-container"
@@ -483,7 +479,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-6 col-md-6-col-12">
+              <div class="col-lg-6 col-md-6 col-12">
                 <div class="form-group">
                   <label for="name" class="form-item-label">Your
                     name</label>
@@ -493,7 +489,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-6-col-12">
+              <div class="col-lg-6 col-md-6 col-12">
                 <div class="form-group">
                   <label for="email" class="form-item-label">Your work email</label>
                   <div class="position-relative"><input
@@ -502,20 +498,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-6-col-12">
-                <div class="form-group">
-                  <label for="phone" class="form-item-label">Your phone (optional)</label>
-                  <div class="position-relative has-icon-left"><input
-                      [ngClass]="{'border-error': secondFormSubmitted && secondF.phone.errors}" class="form-control"
-                      formControlName="phone" id="phone" name="phone" type="text">
-                    <div class="form-control-position">
-                      <fa-icon class="ft-search icon-input-color" [icon]="faPlus">
-                      </fa-icon>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6-col-12">
+              <div class="col-lg-6 col-md-6 col-12">
                 <div class="form-group">
                   <label for="company-name" class="form-item-label">Name of your company</label>
                   <div class="position-relative"><input
@@ -525,30 +508,78 @@
                   </div>
                 </div>
               </div>
-
+              <div class="col-lg-6 col-md-6 col-12">
+                <div class="form-group">
+                  <label for="company-name" class="form-item-label">Your phone (optional)</label>
+                  <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+                    [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]" formControlName="phone"
+                    [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.UnitedStates" [maxLength]="'15'"
+                    [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                    [numberFormat]="PhoneNumberFormat.National" name="phone" formControlName="phone">
+                  </ngx-intl-tel-input>
+                </div>
+              </div>
             </div>
-            <button class="btn btn-primary float-right btn-lg" *ngIf="stepIndex < 2">Continue2</button>
+            <button class="btn btn-primary float-right button-step-2 btn-lg" *ngIf="stepIndex < 2">Continue</button>
+            <button class="btn btn-outline-primary float-right btn-lg back-button" *ngIf="stepIndex > 0"
+              (click)="previousStep()">Back</button>
+
           </form>
         </ng-wizard-step>
 
 
-
-
-
         <ng-wizard-step [canEnter]="isValidFunctionReturnsObservable.bind(this)"
           [canExit]="isValidFunctionReturnsBoolean.bind(this)">
-          <div class="header">
-            <div class="header-left"><span>PickLatam</span></div>
-            <div class="header-right"><span class="current-step-container">Step 3/3</span></div>
+          <div class="container">
+            <div class="header">
+              <div class="header-left"><span>PickLatam</span></div>
+              <div class="header-right"><span class="current-step-container">Step 3/3</span></div>
+            </div>
+            <h4 class="calendar-page-title"><span>Schedule a 30 minutes call</span></h4>
+            <div class="skills-help margin-small-screens" [ngStyle]="{'margin-bottom: 1rem': calendlyEventScheduled}">
+              Let
+              us know what you need. We are
+              here to help you.
+            </div>
+
+            <div class="skills-help margin-small-screens" *ngIf="calendlyEventScheduled && calendlyTimer > 0">You will
+              be redirected to our
+              main page in {{calendlyTimer}} seconds
+            </div>
+
+            <div class="skills-help margin-small-screens" *ngIf="calendlyEventScheduled && calendlyTimer == 0">We are
+              redirecting you to our main page. If you
+              do not wish to wait please click <span class="link-style">here</span>
+            </div>
+
+            <div>
+              <div class="calendly-inline-widget" data-auto-load="false"
+                style="position: relative;min-width: 320px; height: 1250px;" data-processed="true">
+                <div class="calendly-spinner">
+                  <div class="calendly-bounce1"></div>
+                  <div class="calendly-bounce2"></div>
+                  <div class="calendly-bounce3"></div>
+                </div>
+              </div>
+              <div class="contentArea">
+
+                <!-- <div class="additional-content">
+              </div> -->
+
+                <div class="flex-box">
+                  <!-- <ngx-spinner [fullScreen]="false" type="pacman" bdColor="rgba(0, 0, 0, 0)" color="#1982c4"
+                  size="medium">
+                  <p class="loading">Ñam ñam ñam</p>
+                </ngx-spinner> -->
+                  <!-- <div class="calendly-inline-widget" data-auto-load="false" style="min-width:320px;height:1100px;">
+                </div> -->
+                </div>
+              </div>
+            </div>
           </div>
+
         </ng-wizard-step>
-
-
-        <!-- <button class="btn btn-primary float-right btn-lg" *ngIf="stepIndex < 2"
-          (click)="showNextStep()">Continue</button> -->
-        <button class="btn btn-outline-primary float-right btn-lg" *ngIf="stepIndex > 0"
-          (click)="previousStep()">Back</button>
-        <button class="btn btn-success mx-2" *ngIf="stepIndex == 2" (click)="previousStep()">Finish</button>
 
 
       </ng-wizard>

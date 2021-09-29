@@ -1,6 +1,11 @@
 body {
     margin: 82px auto 32px;
     padding: 0 16px;
+    // overflow: hidden !important;
+}
+
+iframe {
+    height: 1120;
 }
 
 ::ng-deep .step-anchor {
@@ -73,13 +78,13 @@ body {
     &:hover {
         box-shadow: 0 0 10px rgb(0 0 0 / 14%);
         .skill-title {
-            color: #56a8f7;
+            color: #1982c4;
         }
     }
 }
 
 .skill-selected {
-    border: 3px solid #56a8f7;
+    border: 3px solid #1982c4;
 }
 
 .skill-icon-holder {
@@ -186,6 +191,14 @@ body {
     }
 }
 
+.button-step-2 {
+    margin: 1rem 0 0 1rem;
+}
+
+.back-button {
+    margin-top: 1rem;
+}
+
 .form-item-container {
     flex: 1 1;
     margin: 20px auto;
@@ -285,7 +298,7 @@ body {
 
 .form-control-position {
     position: absolute;
-    top: 2px;
+    top: 0px;
     right: 0;
     z-index: 2;
     display: block;
@@ -367,5 +380,29 @@ input[type=checkbox].css-checkbox{ display: none; }
 
 input[type=checkbox].css-checkbox:checked + label.css-label {
  background-position: 0 0;
- border: 3px solid #2FBCDF;
+ border: 3px solid #1982c4;
+}
+
+.calendly-container {
+    margin-top: 1rem;
+}
+
+.calendar-page-title {
+    margin: 1rem 0 0.5rem 0;
+}
+
+
+// .calendly-inline-widget {
+//     height: 100vh !important;
+// }
+
+@media (max-width: 1096px) {
+    .margin-small-screens {
+        margin-bottom: 2rem;
+    }
+}
+
+.link-style {
+    cursor: pointer;
+    color: #1982c4
 }

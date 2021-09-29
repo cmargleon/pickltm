@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
@@ -29,7 +31,9 @@ const ngWizardConfig: NgWizardConfig = {
     FontAwesomeModule,
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxIntlTelInputModule,
+    NgxSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
